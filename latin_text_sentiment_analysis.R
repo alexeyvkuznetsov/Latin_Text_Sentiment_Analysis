@@ -6,7 +6,7 @@ library(syuzhet)
 library(ggplot2)
 
 
-setwd("D:/GitHub/Latin Text Sentiment Analysis/")
+setwd("D:/GitHub/Latin_Text_Sentiment_Analysis/")
 
 #Latin text preprocessing
 
@@ -62,11 +62,11 @@ historia_s<-data.frame(texts=historia_s)
 #x <- as.data.frame(x)
 
 
-# Преобразование всего текста и фрагментов в леммы пакетом UDPipe.
+# Text pre-processing by UDPipe package.
 
 udmodel_latin <- udpipe_load_model(file = "latin-ittb-ud-2.4-190531.udpipe")
 
-# Весь текст
+# All text
 x <- udpipe_annotate(udmodel_latin, x = alltext$texts)
 x <- as.data.frame(x)
 
@@ -78,7 +78,7 @@ alltext <- removePunctuation(alltext)
 write(alltext, file = "text_lemma.txt")
 
 
-# Пролог
+# Prologus
 
 x <- udpipe_annotate(udmodel_latin, x = prologus$texts)
 x <- as.data.frame(x)
@@ -89,7 +89,7 @@ text_prologus <- removePunctuation(text_prologus)
 write(text_prologus, file = "text_prologus_lemma.txt")
 
 
-# История готов
+# Historia gothorum
 
 x <- udpipe_annotate(udmodel_latin, x = historia_g$texts)
 x <- as.data.frame(x)
@@ -99,7 +99,7 @@ text_historia_g <- stripWhitespace(text_historia_g)
 text_historia_g <- removePunctuation(text_historia_g)
 write(text_historia_g, file = "text_historia_g_lemma.txt")
 
-# Вывод
+# Recapitulatio
 
 x <- udpipe_annotate(udmodel_latin, x = recapitulatio$texts)
 x <- as.data.frame(x)
@@ -110,7 +110,7 @@ text_recapitulatio <- stripWhitespace(text_recapitulatio)
 text_recapitulatio <- removePunctuation(text_recapitulatio)
 write(text_recapitulatio, file = "text_recapitulatio_lemma.txt")
 
-# История вандалов
+# Historia wandalorum
 
 x <- udpipe_annotate(udmodel_latin, x = historia_w$texts)
 x <- as.data.frame(x)
@@ -121,7 +121,7 @@ text_historia_w <- stripWhitespace(text_historia_w)
 text_historia_w <- removePunctuation(text_historia_w)
 write(text_historia_w, file = "text_historia_w_lemma.txt")
 
-# История свевов
+# Historia Suevorum
 
 x <- udpipe_annotate(udmodel_latin, x = historia_s$texts)
 x <- as.data.frame(x)
@@ -133,18 +133,15 @@ write(text_historia_s, file = "text_historia_s_lemma.txt")
 
 
 
-# Анализ тональности
+# Sentiment analysis
 
-#Весь текст
+# All text
 
 text_lemma <- get_text_as_string("text_lemma.txt")
 text_tokens <- get_tokens(text_lemma)
 
 nrc_data <- get_nrc_sentiment(text_tokens, language="latin")
 
-#nrc_data[1:10]
-
-#head(nrc_data)
 
 #simple_plot(nrc_data)
 
@@ -163,6 +160,8 @@ names(new_result)[1] <- "count"
 new_result <- cbind("sentiment" = rownames(new_result), new_result)
 rownames(new_result) <- NULL
 
+
+
 #plot the first 8 rows,the distinct emotions
 qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)+ggtitle("Весь текст 'Истории готов, вандалов и свевов'")
 
@@ -170,13 +169,13 @@ qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)
 qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment)+ggtitle("Весь текст 'Истории готов, вандалов и свевов'")
 
 
+trust_items <- which(nrc_data$trust > 0)
+text_tokens[trust_items]
+
 
 angry_items <- which(nrc_data$anger > 0)
 text_tokens[angry_items]
 
-
-trust_items <- which(nrc_data$trust > 0)
-text_tokens[trust_items]
 
 sadness_items <- which(nrc_data$sadness > 0)
 text_tokens[sadness_items]
@@ -187,7 +186,7 @@ text_tokens[joy_items]
 
 
 
-# Пролог
+# Prologus
 
 text_lemma <- get_text_as_string("text_prologus_lemma.txt")
 text_tokens <- get_tokens(text_lemma)
@@ -217,7 +216,7 @@ qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)
 qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment)+ggtitle("Пролог 'Истории готов, вандалов и свевов'")
 
 
-# История готов
+# Historia gothorum
 
 text_lemma <- get_text_as_string("text_historia_g_lemma.txt")
 text_tokens <- get_tokens(text_lemma)
@@ -247,7 +246,7 @@ qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)
 qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment)+ggtitle("Истории готов")
 
 
-# Ваводы
+# Recapitulati
 
 text_lemma <- get_text_as_string("text_recapitulatio_lemma.txt")
 text_tokens <- get_tokens(text_lemma)
@@ -277,7 +276,7 @@ qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)
 qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment)+ggtitle("Выводы 'Истории готов, вандалов и свевов'")
 
 
-# История вандалов
+# Historia wandalorum
 
 text_lemma <- get_text_as_string("text_historia_w_lemma.txt")
 text_tokens <- get_tokens(text_lemma)
@@ -307,7 +306,7 @@ qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)
 qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment)+ggtitle("История вандалов")
 
 
-# История свевов
+# Historia suevorum
 
 text_lemma <- get_text_as_string("text_historia_s_lemma.txt")
 text_tokens <- get_tokens(text_lemma)
