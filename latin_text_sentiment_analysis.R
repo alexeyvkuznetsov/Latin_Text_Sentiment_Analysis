@@ -160,6 +160,8 @@ names(new_result)[1] <- "count"
 new_result <- cbind("sentiment" = rownames(new_result), new_result)
 rownames(new_result) <- NULL
 
+
+
 #plot the first 8 rows,the distinct emotions
 qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)+ggtitle("Весь текст 'Истории готов, вандалов и свевов'")
 
@@ -167,13 +169,13 @@ qplot(sentiment, data=new_result[1:8,], weight=count, geom="bar",fill=sentiment)
 qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment)+ggtitle("Весь текст 'Истории готов, вандалов и свевов'")
 
 
+trust_items <- which(nrc_data$trust > 0)
+text_tokens[trust_items]
+
 
 angry_items <- which(nrc_data$anger > 0)
 text_tokens[angry_items]
 
-
-trust_items <- which(nrc_data$trust > 0)
-text_tokens[trust_items]
 
 sadness_items <- which(nrc_data$sadness > 0)
 text_tokens[sadness_items]
