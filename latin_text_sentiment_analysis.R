@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 library(NLP)
 library(tm)
 library(udpipe)
@@ -680,4 +680,4 @@ qplot(sentiment, data=new_result[9:10,], weight=count, geom="bar",fill=sentiment
 
 
 
->>>>>>> da18c10a0dd8cb05cae46fc36a6e32f600bf0a4b
+

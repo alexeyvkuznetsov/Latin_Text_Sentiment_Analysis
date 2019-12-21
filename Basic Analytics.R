@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 library(lattice)
 library(tm) 
 library(stringr)
@@ -266,4 +266,4 @@ wordcloud(words = stats$keyword, freq = stats$freq)
 
 
 
->>>>>>> da18c10a0dd8cb05cae46fc36a6e32f600bf0a4b
+
